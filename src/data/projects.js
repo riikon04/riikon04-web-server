@@ -1,16 +1,4 @@
-export interface Project {
-  id: string;
-  name: string;
-  description: string;
-  githubUrl: string;
-  languages: string[];
-  members: string[]; // Discord user IDs
-  deployedAt: string; // ISO date string
-  imageUrl?: string;
-  websiteUrl?: string;
-}
-
-export const projects: Project[] = [
+const projects = [
   {
     id: "1",
     name: "Riikon04 Web Server",
@@ -32,10 +20,10 @@ export const projects: Project[] = [
   }
 ];
 
-export function getProjects(): Project[] {
+export function getProjects() {
   return projects;
 }
 
-export function getProjectById(id: string): Project | undefined {
+export function getProjectById(id) {
   return projects.find(project => project.id === id);
 }
