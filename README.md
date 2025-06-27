@@ -1,6 +1,6 @@
 # Riikon04 Web Server
 
-Đây là dự án [Next.js](https://nextjs.org) được khởi tạo bằng [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+API server cho website Riikon04, được xây dựng bằng Express.js và cung cấp thông tin về thành viên Discord và dự án của nhóm.
 
 ## Bắt đầu
 
@@ -17,23 +17,21 @@ cd riikon04-web-server
 npm install
 ```
 
+Tạo file .env trong thư mục gốc với các biến môi trường sau:
+
+```
+DISCORD_TOKEN=your_discord_bot_token_here
+GUILD_ID=your_discord_guild_id_here
+PORT=3000
+```
+
 Cuối cùng, bạn có thể chạy ứng dụng trong chế độ phát triển:
 
 ```bash
-npm run dev
-# hoặc
-yarn dev
-# hoặc
-pnpm dev
-# hoặc
-bun dev
+node src/index.js
 ```
 
 Mở [http://localhost:3000](http://localhost:3000) trên trình duyệt của bạn để xem kết quả.
-
-Bạn có thể bắt đầu chỉnh sửa trang bằng cách thay đổi file `app/page.tsx`. Trang sẽ tự động cập nhật khi bạn chỉnh sửa file.
-
-Dự án này sử dụng [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) để tự động tối ưu hóa và tải font [Geist](https://vercel.com/font), một font mới từ Vercel.
 
 ## API Endpoints
 
@@ -54,21 +52,45 @@ Server cung cấp các API sau:
   - Query params:
     - `id`: Lấy thông tin chi tiết của một dự án cụ thể
 
-## Tìm hiểu thêm
+## Công nghệ sử dụng
 
-Để tìm hiểu thêm về Next.js, hãy xem các tài liệu sau:
+- **Express.js**: Framework web cho Node.js
+- **Discord.js**: Thư viện để tương tác với Discord API
+- **Cors**: Middleware để hỗ trợ Cross-Origin Resource Sharing
+- **Dotenv**: Để quản lý biến môi trường
 
-- [Tài liệu Next.js](https://nextjs.org/docs) - tìm hiểu về các tính năng và API của Next.js.
-- [Học Next.js](https://nextjs.org/learn) - hướng dẫn tương tác về Next.js.
+## Triển khai
 
-Bạn có thể kiểm tra [repository GitHub của Next.js](https://github.com/vercel/next.js) - đóng góp và phản hồi của bạn luôn được chào đón!
+### Triển khai lên Koyeb
 
-## Triển khai trên Vercel
+1. Đăng ký tài khoản tại [Koyeb](https://koyeb.com/)
+2. Tạo file `Dockerfile` trong thư mục gốc:
 
-Cách dễ nhất để triển khai ứng dụng Next.js của bạn là sử dụng [Nền tảng Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) từ các nhà sáng tạo của Next.js.
+```dockerfile
+FROM node:18-alpine
 
-Xem [tài liệu triển khai Next.js](https://nextjs.org/docs/app/building-your-application/deploying) để biết thêm chi tiết.
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install --production
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["node", "src/index.js"]
+```
+
+3. Đẩy code lên GitHub repository
+4. Trong Koyeb, tạo app mới từ GitHub repository
+5. Cấu hình các biến môi trường (DISCORD_TOKEN, GUILD_ID)
+6. Triển khai ứng dụng
 
 ## Đóng góp
 
 Chúng tôi luôn chào đón mọi đóng góp cho dự án này. Vui lòng tham khảo các template sẵn có khi tạo issue hoặc pull request.
+
+## Giấy phép
+
+Dự án này được phân phối theo Giấy phép Apache 2.0. Xem file LICENSE để biết thêm chi tiết.
