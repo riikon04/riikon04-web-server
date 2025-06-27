@@ -21,11 +21,11 @@ router.get('/users', async (req, res) => {
             banner: member.user.bannerURL?.({ size: 256 }),
             tag: member.user.tag,
             joinedAt: member.joinedAt?.toISOString(),
-            roles: Array.from(member.roles.cache.values()).map(role => ({
-                id: role.id,
-                name: role.name,
-                color: role.hexColor
-            })),
+            // roles: Array.from(member.roles.cache.values()).map(role => ({
+            //     id: role.id,
+            //     name: role.name,
+            //     color: role.hexColor
+            // })),
             presence: member.presence ? {
                 status: member.presence.status,
                 activities: member.presence.activities.map(activity => ({
