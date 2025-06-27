@@ -23,7 +23,7 @@ class DiscordService {
         IntentsBitField.Flags.GuildPresences
       ]
     });
-
+    
     this.initialize();
   }
 
