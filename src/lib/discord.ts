@@ -1,4 +1,11 @@
-import { Client, Guild, GuildMember, IntentsBitField } from 'discord.js';
+import {
+  Client,
+  Guild,
+  GuildMember,
+  IntentsBitField,
+  ActivityType,
+  Options,
+} from "discord.js";
 // import dotenv from 'dotenv';
 
 // dotenv.config();
@@ -6,7 +13,9 @@ import { Client, Guild, GuildMember, IntentsBitField } from 'discord.js';
 const { DISCORD_TOKEN, GUILD_ID } = process.env;
 
 if (!DISCORD_TOKEN || !GUILD_ID) {
-  throw new Error('Missing required environment variables: DISCORD_TOKEN or GUILD_ID');
+  throw new Error(
+    "Missing required environment variables: DISCORD_TOKEN or GUILD_ID"
+  );
 }
 
 class DiscordService {
@@ -20,8 +29,16 @@ class DiscordService {
       intents: [
         IntentsBitField.Flags.Guilds,
         IntentsBitField.Flags.GuildMembers,
-        IntentsBitField.Flags.GuildPresences
+        IntentsBitField.Flags.GuildPresences,
       ],
+      makeCache: Options.cacheWithLimits({
+        MessageManager: 10,
+        PresenceManager: 10,
+      }),
+      shardCount: 1,
+      rest: {
+        timeout: 60000,
+      },
     });
 
     this.initialize();
@@ -35,22 +52,26 @@ class DiscordService {
   }
 
   private async initialize() {
-    this.client.once('ready', async () => {
+    this.client.once("ready", async () => {
       console.log(`Logged in as ${this.client.user?.tag}`);
-      
+
+      this.client.user?.setActivity("Vũ trụ mô phỏng", {
+        type: ActivityType.Playing,
+      });
+
       try {
         this.guild = await this.client.guilds.fetch(GUILD_ID!);
         console.log(`Connected to guild: ${this.guild.name}`);
         this.ready = true;
       } catch (error) {
-        console.error('Failed to fetch guild:', error);
+        console.error("Failed to fetch guild:", error);
       }
     });
 
     try {
       await this.client.login(DISCORD_TOKEN);
     } catch (error) {
-      console.error('Failed to login to Discord:', error);
+      console.error("Failed to login to Discord:", error);
     }
   }
 
@@ -61,7 +82,10 @@ class DiscordService {
     return this.guild;
   }
 
-  public async getMembers(roleId?: string, limit: number = 20): Promise<GuildMember[]> {
+  public async getMembers(
+    roleId?: string,
+    limit: number = 20
+  ): Promise<GuildMember[]> {
     if (!this.ready) {
       await this.waitForReady();
     }
@@ -73,20 +97,18 @@ class DiscordService {
       let members = [...this.guild.members.cache.values()];
 
       if (roleId) {
-        members = members.filter(member => 
-          member.roles.cache.has(roleId)
-        );
+        members = members.filter((member) => member.roles.cache.has(roleId));
       }
 
-      members = members.filter(member =>
-        member.joinedTimestamp !== null && member.user.bot === false
+      members = members.filter(
+        (member) => member.joinedTimestamp !== null && member.user.bot === false
       );
 
       members.sort((a, b) => a.joinedTimestamp! - b.joinedTimestamp!);
 
       return members.slice(0, limit);
     } catch (error) {
-      console.error('Error fetching members:', error);
+      console.error("Error fetching members:", error);
       return [];
     }
   }
