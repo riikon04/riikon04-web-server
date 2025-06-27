@@ -14,14 +14,21 @@ client.login(DISCORD_TOKEN);
 const scopes = ['identify', 'guilds'];
 
 passport.serializeUser((user, done) => {
+  console.log('Serializing user:', user.id);
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
   try {
     const user = await User.findById(id);
+    if (!user) {
+      console.log('User not found during deserialization:', id);
+      return done(null, false);
+    }
+    console.log('Deserialized user:', id);
     done(null, user);
   } catch (err) {
+    console.error('Error deserializing user:', err);
     done(err, null);
   }
 });
@@ -30,9 +37,11 @@ passport.use(new DiscordStrategy({
   clientID: DISCORD_CLIENT_ID,
   clientSecret: DISCORD_CLIENT_SECRET,
   callbackURL: DISCORD_CALLBACK_URL,
-  scope: scopes
-}, async (accessToken, refreshToken, profile, done) => {
+  scope: scopes,
+  passReqToCallback: true
+}, async (req, accessToken, refreshToken, profile, done) => {
   try {
+    console.log('Discord auth callback for user:', profile.id);
     let user = await User.findOne({ discordId: profile.id });
     
     let isGuildMember = false;
@@ -78,6 +87,7 @@ passport.use(new DiscordStrategy({
     
     return done(null, user);
   } catch (err) {
+    console.error('Discord auth error:', err);
     return done(err, null);
   }
 }));

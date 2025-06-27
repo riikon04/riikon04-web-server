@@ -65,7 +65,7 @@ router.get('/server', async (req, res) => {
             memberCount: guild.memberCount,
             userCount: guild.members.cache.filter(member => !member.user.bot).size,
             onlineCount: guild.members.cache.filter(member => 
-                member.presence?.status === 'online' && !member.user.bot).size,
+                member?.presence && !member.user.bot).size,
             preferredLocale: guild.preferredLocale,
             premiumTier: guild.premiumTier,
             premiumSubscriptionCount: guild.premiumSubscriptionCount,

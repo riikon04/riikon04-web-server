@@ -4,7 +4,7 @@ const fetchServerStats = async () => {
     const response = await fetch('/api/discord/server');
     const data = await response.json();
     
-    document.getElementById('total-members').textContent = data.memberCount || 0;
+    document.getElementById('total-members').textContent = data.userCount || 0;
     document.getElementById('online-members').textContent = data.onlineCount || 0;
   } catch (error) {
     console.error('Error fetching server stats:', error);

@@ -33,12 +33,17 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     maxAge: 86400000, // 1 day
-    secure: process.env.NODE_ENV === 'production' 
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    httpOnly: true
   },
   store: MongoStore.create({
     mongoUrl: process.env.MONGODB_URI,
-    ttl: 86400 // 1 day
-  })
+    ttl: 86400, // 1 day
+    autoRemove: 'native',
+    touchAfter: 24 * 3600 // time period in seconds
+  }),
+  proxy: process.env.NODE_ENV === 'production' // Trust the reverse proxy when in production
 }));
 
 // Khởi tạo Passport
@@ -85,6 +90,11 @@ app.get('/admin-panel', isAuthenticated, isAdmin, (req, res) => {
 app.get('/admin-ui', (req, res) => {
   res.redirect('/admin-panel');
 });
+
+// Enable trust proxy if in production
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
 
 app.listen(PORT, () => {
   console.log(`Riikon04 Web Server is running on http://localhost:${PORT}`);
