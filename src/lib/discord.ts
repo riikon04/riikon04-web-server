@@ -1,7 +1,7 @@
 import { Client, Guild, GuildMember, IntentsBitField } from 'discord.js';
-import dotenv from 'dotenv';
+// import dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 
 const { DISCORD_TOKEN, GUILD_ID } = process.env;
 
@@ -21,9 +21,9 @@ class DiscordService {
         IntentsBitField.Flags.Guilds,
         IntentsBitField.Flags.GuildMembers,
         IntentsBitField.Flags.GuildPresences
-      ]
+      ],
     });
-    
+
     this.initialize();
   }
 
