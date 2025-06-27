@@ -1,23 +1,32 @@
 const projects = [
   {
     id: "1",
-    name: "Riikon04 Web Server",
-    description: "API server for the team's website",
-    githubUrl: "https://github.com/riikon04/web-server",
-    languages: ["TypeScript", "Next.js"],
-    members: ["123456789012345678", "234567890123456789"],
-    deployedAt: "2025-06-20T00:00:00Z",
-    websiteUrl: "https://riikon04.org"
+    name: "DevTab",
+    description: "The DevTab extension brings a new perspective to your development workflow, transforming your browser's new tab into a powerful development hub.",
+    githubUrl: "https://github.com/Riikon-Team/DevTab.git",
+    languages: ["TypeScript"],
+    members: ["732157441889927239", "605703751327678486"],
+    deployedAt: "2025-02-28T00:00:00Z"
   },
   {
     id: "2",
-    name: "Discord Bot",
-    description: "Utility bot for our Discord server",
-    githubUrl: "https://github.com/riikon04/discord-bot",
-    languages: ["JavaScript", "Node.js"],
-    members: ["123456789012345678", "345678901234567890"],
-    deployedAt: "2025-05-15T00:00:00Z"
-  }
+    name: "RiikonBot",
+    description: "The RiikonBot is a versatile Discord bot designed to enhance your server experience with a variety of useful features.",
+    githubUrl: "https://github.com/Riikon-Team/RiikonBot.git",
+    languages: ["JavaScript", "Vue.js"],
+    members: ["732157441889927239", "605703751327678486"],
+    deployedAt: "2025-04-10T00:00:00Z"
+  },
+  {
+    id: "3",
+    name: "RikoApp Discord Activity",
+    description: "The RikoApp Discord Activity is a tool designed to enhance the Discord experience by providing rich presence features for users.",
+    githubUrl: "https://github.com/konnn04/rikoapp-discord-activity.git",
+    languages: ["JavaScript"],
+    members: ["732157441889927239"],
+    deployedAt: "2025-05-28T00:00:00Z"
+  },
+
 ];
 
 export function getProjects() {

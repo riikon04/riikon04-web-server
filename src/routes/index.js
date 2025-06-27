@@ -1,6 +1,7 @@
 import express from 'express';
 import discordRoutes from './discord.js';
 import projectsRoutes from './projects.js';
+import discordMessagesRoutes from './discord-messages.js';
 
 const router = express.Router();
 
@@ -11,6 +12,7 @@ router.get('/', (req, res) => {
         endpoints: [
             '/api/discord/users',
             '/api/discord/server',
+            '/api/discord/messages',
             '/api/projects'
         ]
     });
@@ -19,5 +21,6 @@ router.get('/', (req, res) => {
 // Sử dụng các routes con
 router.use('/discord', discordRoutes);
 router.use('/projects', projectsRoutes);
+router.use('/discord/messages', discordMessagesRoutes);
 
 export default router;

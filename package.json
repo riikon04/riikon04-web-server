@@ -2,21 +2,27 @@
   "name": "riikon04-web-server",
   "version": "1.0.0",
   "type": "module",
-  "description": "Đây là dự án [Next.js](https://nextjs.org) được khởi tạo bằng [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).",
+  "description": "Đây là một máy chủ web Node.js sử dụng Express và MongoDB để quản lý người dùng và dự án.",
   "main": "src/index.js",
-   "scripts": {
+  "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo \"No build step defined\" && exit 0"
+    "build": "echo \"No build step defined\" && exit 0",
+    "migrate": "node src/scripts/migrateProjects.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "connect-mongo": "^5.1.0",
     "cors": "^2.8.5",
     "discord.js": "^14.21.0",
     "dotenv": "^16.6.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "mongoose": "^8.16.1",
+    "passport": "^0.7.0",
+    "passport-discord": "^0.1.4"
   }
 }
