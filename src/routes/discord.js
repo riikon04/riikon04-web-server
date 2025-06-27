@@ -33,7 +33,13 @@ router.get('/users', async (req, res) => {
                     type: activity.type,
                     details: activity.details,
                     state: activity.state,
-                    createdAt: activity.createdAt
+                    createdAt: activity.createdAt,
+                    smallImageURL: activity.assets?.smallImageURL(),
+                    largeImageURL: activity.assets?.largeImageURL(),
+                    timestamps: activity.timestamps ? {
+                        start: activity.timestamps.start?.toISOString(),
+                        end: activity.timestamps.end?.toISOString()
+                    } : null,
                 }))
             } : null,
         }));
