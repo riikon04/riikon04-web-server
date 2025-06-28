@@ -8,11 +8,12 @@ router.get('/users', async (req, res) => {
     try {
         const roleId = req.query.roleId;
         const limit = req.query.limit ? parseInt(req.query.limit) : 20;
+        const sortBy = req.query.sortBy || 'joinedAt'; // Default sort by joinedAt
         
-        const members = await discordService.getMembers(roleId, limit);
+        const members = await discordService.getMembers(roleId, limit, sortBy);
         
         // Format the response data
-        const users = members.map(member => ({
+        let users = members.map(member => ({
             id: member.id,
             username: member.user.username,
             displayName: member.displayName,
@@ -43,6 +44,8 @@ router.get('/users', async (req, res) => {
                 }))
             } : null,
         }));
+        
+        
         
         res.json({ users, total: users.length });
     } catch (error) {

@@ -63,7 +63,7 @@ class DiscordService {
     return this.guild;
   }
   
-  async getMembers(roleId, limit = 20) {
+  async getMembers(roleId, limit = 20, sortBy = 'joinedAt') {
     if (!this.ready) {
       await this.waitForReady();
     }
@@ -82,7 +82,17 @@ class DiscordService {
         (member) => member.joinedTimestamp !== null && member.user.bot === false
       );
       
-      members.sort((a, b) => a.joinedTimestamp - b.joinedTimestamp);
+      // Sort users based on sortBy parameter
+      if (sortBy === 'joinedAt') {
+          members.sort((a, b) => new Date(b.joinedAt) - new Date(a.joinedAt));
+      } else if (sortBy === 'online') {
+          members.sort((a, b) => {
+              // Online users first (presence !== null), then by joinedAt
+              if (a.presence && !b.presence) return -1;
+              if (!a.presence && b.presence) return 1;
+              return new Date(b.joinedAt) - new Date(a.joinedAt);
+          });
+      }
       
       return members.slice(0, limit);
     } catch (error) {
