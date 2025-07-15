@@ -15,7 +15,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.2",
     "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "discord.js": "^14.21.0",
     "dotenv": "^16.6.0",
@@ -24,6 +26,8 @@
     "mongoose": "^8.16.1",
     "nodemon": "^3.1.10",
     "passport": "^0.7.0",
-    "passport-discord": "^0.1.4"
+    "passport-discord": "^0.1.4",
+    "querystring": "^0.2.1",
+    "youtubei.js": "^14.0.0"
   }
 }

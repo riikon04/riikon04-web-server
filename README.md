@@ -46,11 +46,30 @@ Server cung cấp các API sau:
 
 - **GET /api/discord/server** - Hiển thị thông tin của Discord server
 
+### Discord Client OAuth APIs (Rich Presence)
+
+- **GET /discord-client/login** - Tạo URL xác thực Discord với quyền write presence
+- **GET /discord-client/callback** - Callback URL cho xác thực Discord
+- **POST /discord-client/refresh** - Làm mới token Discord
+  - Body: `{ "refresh_token": "your_refresh_token" }`
+- **GET /discord-client/me** - Lấy thông tin người dùng Discord đã xác thực
+  - Headers: `Authorization: Bearer your_access_token`
+- **POST /discord-client/activity** - Cập nhật activity/presence cho người dùng
+  - Headers: `Authorization: Bearer your_access_token`
+  - Body: `{ "details": "Activity description", "emoji": "emoji_name", "type": "CUSTOM" }`
+- **GET /discord-client/applications** - Lấy danh sách ứng dụng cho Rich Presence
+  - Headers: `Authorization: Bearer your_access_token`
+
 ### Project APIs
 
 - **GET /api/projects** - Hiển thị danh sách các dự án của nhóm
   - Query params:
     - `id`: Lấy thông tin chi tiết của một dự án cụ thể
+
+### Spotify APIs
+
+- **GET /api/spotify/login** - Tạo URL xác thực Spotify
+- **GET /api/spotify/callback** - Callback URL cho xác thực Spotify
 
 ## Công nghệ sử dụng
 

@@ -3,11 +3,13 @@ import express from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
+import cookieParser from 'cookie-parser';
 import connectDB from './config/database.js';
 import passport from './config/passport.js';
 import apiRoutes from './routes/index.js';
 import authRoutes from './routes/auth.js';
 import adminRoutes from './routes/admin.js';
+import discordClientRoutes from './routes/discordClient.js';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { isAuthenticated, isAdmin } from './middleware/auth.js';
@@ -25,6 +27,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Thiết lập session
 app.use(session({
@@ -54,6 +57,7 @@ app.use(passport.session());
 app.use('/api', apiRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use('/discord-client', discordClientRoutes);
 
 // Trang chủ
 app.get('/', (req, res) => {

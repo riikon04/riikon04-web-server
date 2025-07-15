@@ -2,6 +2,9 @@ import express from 'express';
 import discordRoutes from './discord.js';
 import projectsRoutes from './projects.js';
 import discordMessagesRoutes from './discord-messages.js';
+import spotifyRoutes from './spotify.js';
+import youtubeRoutes from './youtube.js';
+import lyricsRoutes from './lyrics.js';
 
 const router = express.Router();
 
@@ -22,5 +25,8 @@ router.get('/', (req, res) => {
 router.use('/discord', discordRoutes);
 router.use('/projects', projectsRoutes);
 router.use('/discord/messages', discordMessagesRoutes);
+router.use('/spotify', spotifyRoutes);
+router.use('/youtube', youtubeRoutes);
+router.use('/lyrics', lyricsRoutes);
 
 export default router;
