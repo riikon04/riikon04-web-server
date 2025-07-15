@@ -5,12 +5,18 @@ class LyricsService {
     this.baseUrl = 'https://lrclib.net/api';
   }
 
-  async searchLyrics(artist, track) {
+  /**
+   * Search for lyrics by artist and track name
+   * @param {string} artist_name - The artist name
+   * @param {string} track_name - The track name
+   * @returns {Promise<Array>} - Array of matching lyrics
+   */
+  async searchLyrics(artist_name, track_name) {
     try {
       const response = await axios.get(`${this.baseUrl}/search`, {
         params: {
-          artist,
-          track
+          artist_name,
+          track_name
         }
       });
       
@@ -21,17 +27,52 @@ class LyricsService {
     }
   }
 
-  async getLyrics(id) {
+  /**
+   * Get lyrics by artist and track name (more reliable than ID)
+   * @param {string} artist_name - The artist name
+   * @param {string} track_name - The track name
+   * @returns {Promise<Object>} - Lyrics object
+   */
+  async getLyricsByTrack(artist_name, track_name) {
     try {
-      const response = await axios.get(`${this.baseUrl}/get/${id}`);
+      const response = await axios.get(`${this.baseUrl}/get`, {
+        params: {
+          artist_name,
+          track_name
+        }
+      });
+
       return response.data;
     } catch (error) {
-      console.error('Error getting lyrics:', error.response?.data || error.message);
+      console.error('Error getting lyrics by track:', error.response?.data || error.message);
       throw error;
     }
   }
 
-  // Helper method to parse and format synced lyrics
+  /**
+   * Get lyrics by ID
+   * @param {number|string} id - The lyrics ID
+   * @returns {Promise<Object>} - Lyrics object
+   */
+  async getLyricsById(id) {
+    try {
+      if (!id || isNaN(parseInt(id))) {
+        throw new Error('Invalid lyrics ID');
+      }
+      
+      const response = await axios.get(`${this.baseUrl}/get/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error getting lyrics by ID:', error.response?.data || error.message);
+      throw error;
+    }
+  }
+
+  /**
+   * Parse and format synced lyrics into a more usable format
+   * @param {string} syncedLyrics - Raw synced lyrics in LRC format
+   * @returns {Array} Array of {time, text} objects
+   */
   parseSyncedLyrics(syncedLyrics) {
     if (!syncedLyrics) return [];
     
@@ -55,6 +96,20 @@ class LyricsService {
       console.error('Error parsing synced lyrics:', error);
       return [];
     }
+  }
+
+  /**
+   * Format lyrics data with parsed synced lyrics
+   * @param {Object} lyricsData - Raw lyrics data from API
+   * @returns {Object} Enhanced lyrics object with parsed timestamps
+   */
+  formatLyricsData(lyricsData) {
+    if (!lyricsData) return null;
+
+    return {
+      ...lyricsData,
+      parsedLyrics: this.parseSyncedLyrics(lyricsData.syncedLyrics)
+    };
   }
 }
 

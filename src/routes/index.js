@@ -5,6 +5,7 @@ import discordMessagesRoutes from './discord-messages.js';
 import spotifyRoutes from './spotify.js';
 import youtubeRoutes from './youtube.js';
 import lyricsRoutes from './lyrics.js';
+import discordClient from './discordClient.js';
 
 const router = express.Router();
 
@@ -28,5 +29,6 @@ router.use('/discord/messages', discordMessagesRoutes);
 router.use('/spotify', spotifyRoutes);
 router.use('/youtube', youtubeRoutes);
 router.use('/lyrics', lyricsRoutes);
+router.use('/discord-client', discordClient);
 
 export default router;
